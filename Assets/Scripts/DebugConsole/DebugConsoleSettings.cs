@@ -15,6 +15,9 @@ namespace DebugConsole
         public float startHeightScale = 0.5f;
         public Vector2 startingPosition;
 
+        public Vector2 minSize = new Vector2(200, 200);
+        public Vector2 maxSize = new Vector2(Screen.width, Screen.height);
+
         [Header("Text Properties")]
         public Color commandColor = Color.blue;
         public Color logColor = Color.white;

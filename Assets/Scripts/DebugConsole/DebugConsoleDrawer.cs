@@ -21,7 +21,6 @@ namespace DebugConsole
         private Rect _windowRect;
         private string _currentEntry;
         private Vector2 _scrollPositionEntries;
-        private Vector2 _scrollPositionTextfield;
         private Vector2 _dragMousePosition;
         private Vector2 _windowDimensions;
         private bool _scaling = false;
@@ -35,6 +34,7 @@ namespace DebugConsole
         private bool showTrace = true;
         private bool showErrors = true;
         private bool showWarnings = true;
+
 
         public DebugConsoleDrawer(DebugConsoleSettings settings)
         {
@@ -54,7 +54,6 @@ namespace DebugConsole
             _windowDimensions = new Vector2(Screen.width * _settings.startWidthScale, Screen.height * _settings.startHeightScale);
             _windowRect = new Rect(_settings.startingPosition.x, _settings.startingPosition.y, _windowDimensions.x, _windowDimensions.y);
         }
-
 
         /// <summary>
         /// Clears console entries
@@ -93,8 +92,6 @@ namespace DebugConsole
 
         private void DrawConsole(int windowID)
         {
-
-
             GUILayout.BeginVertical();
             ScrollField();
             Toolbar();
@@ -108,8 +105,6 @@ namespace DebugConsole
             ScalingButton();
 
             GUI.DragWindow(new Rect(0, 0, 10000, _windowDimensions.y - _settings.extendButtonSize));
-
-
         }
 
         private void Toolbar()
@@ -138,7 +133,7 @@ namespace DebugConsole
                 {
                     GUI.contentColor = _settings.warningColor;
                 }
-                else if (entry.type == LogType.Error && showErrors)
+                else if ((entry.type == LogType.Error || entry.type == LogType.Exception) && showErrors)
                 {
                     GUI.contentColor = _settings.errorColor;
                 }
@@ -147,7 +142,7 @@ namespace DebugConsole
                     continue;
                 }
 
-                GUILayout.Label(entry.GetEntry(showTime, showType, showErrors));
+                GUILayout.Label(entry.GetEntry(showTime, showType, showTrace));
 
             }
 
@@ -183,28 +178,37 @@ namespace DebugConsole
         {
             float xPos = _windowRect.width - _settings.extendButtonSize - _settings.extendButtonOffset;
             float yPos = _windowRect.height - _settings.extendButtonSize - _settings.extendButtonOffset;
+
             Rect dragButton = new Rect(xPos, yPos, _settings.extendButtonSize, _settings.extendButtonSize);
             GUI.Label(dragButton, _settings.extendTexture, "icon");
 
             if (Event.current.type == EventType.MouseUp)
             {
-                _scaling = false;
                 _windowDimensions = new Vector2(_windowRect.width, _windowRect.height);
+                _scaling = false;
             }
-            else if (Event.current.type == EventType.MouseDown &&
- 
-                     dragButton.Contains(Event.current.mousePosition))
+
+            else if (Event.current.type == EventType.MouseDown && dragButton.Contains(Event.current.mousePosition))
             {
+                _windowDimensions = new Vector2(_windowRect.width, _windowRect.height);
                 _dragMousePosition = Event.current.mousePosition;
                 _scaling = true;
             }
 
             if (_scaling)
             {
-                Vector2 resizeDelta = Event.current.mousePosition - _dragMousePosition;
-                _windowRect = new Rect(_windowRect.x, _windowRect.y, _windowDimensions.x + resizeDelta.x, _windowDimensions.y + resizeDelta.y);
+                Resize();
             }
 
+        }
+
+        private void Resize()
+        {
+            Vector2 resizeDelta = Event.current.mousePosition - _dragMousePosition;
+            Vector2 newSize = new Vector2(_windowDimensions.x + resizeDelta.x, _windowDimensions.y + resizeDelta.y);
+            newSize.x = Mathf.Clamp(newSize.x, _settings.minSize.x, _settings.maxSize.x);
+            newSize.y = Mathf.Clamp(newSize.y, _settings.minSize.y, _settings.maxSize.y);
+            _windowRect = new Rect(_windowRect.x, _windowRect.y, newSize.x, newSize.y);
         }
         #endregion
 

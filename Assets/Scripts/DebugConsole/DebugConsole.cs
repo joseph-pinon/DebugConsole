@@ -13,11 +13,11 @@ namespace DebugConsole
         [SerializeField]
         private DebugConsoleSettings _settings;
 
-        public bool Cheats { get; private set; } = false;
         public bool Shown { get; private set; } = false;
 
-
         public Dictionary<string, DebugCommand> CommandDictionary { get; private set; }
+
+        [field:SerializeField]
         public DebugConsoleDrawer ConsoleDrawer { get; private set; }
 
         public enum AccessLevel { None, High };
@@ -25,6 +25,7 @@ namespace DebugConsole
 
         private void Awake()
         {
+
             if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
@@ -32,20 +33,24 @@ namespace DebugConsole
             else
             {
                 Instance = this;
-                ConsoleDrawer = new DebugConsoleDrawer(_settings);
-
-                LinkCommands();
+                SetupConsole();
                 DontDestroyOnLoad(this);
-
-                LogPrivate("Initialized debug Console.");
-
             }
         }
 
+        private void SetupConsole()
+        {
+            ConsoleDrawer = new DebugConsoleDrawer(_settings);
+            LinkCommands();
+            LogPrivate("Initialized debug Console.");
+
+        }
         private void OnEnable()
         {
+            Awake();
             Application.logMessageReceived += HandleLog;
             ConsoleDrawer.commandPosted += ExecuteCommand;
+
         }
 
         private void OnDisable()
