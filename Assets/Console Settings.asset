@@ -12,19 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 753fff88c0f1d2f44b0016bbb1771044, type: 3}
   m_Name: Console Settings
   m_EditorClassIdentifier: 
-  skin: {fileID: 11400000, guid: 86af9d7ae9810ab43bac3b387b94e826, type: 2}
+  <Skin>k__BackingField: {fileID: 11400000, guid: 86af9d7ae9810ab43bac3b387b94e826, type: 2}
   title: Console
   startWidthScale: 0.5
   startHeightScale: 0.5
   startingPosition: {x: 0, y: 0}
-  offsetDrag: 30
   commandColor: {r: 0, g: 0, b: 1, a: 1}
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  warningColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  logColor: {r: 1, g: 1, b: 1, a: 1}
+  warningColor: {r: 1, g: 0.9203187, b: 0, a: 1}
   errorColor: {r: 1, g: 0, b: 0, a: 1}
   entrySize: 12
   currentEntrySize: 14
-  height: 25
-  extendTexture: {fileID: 0}
-  extendButtonOffset: {x: 0, y: 0}
-  extendButtonSize: 0
+  extendTexture: {fileID: 2800000, guid: aba6b4e8d8686ee4781c059c7247de58, type: 3}
+  extendButtonOffset: 3
+  extendButtonSize: 15

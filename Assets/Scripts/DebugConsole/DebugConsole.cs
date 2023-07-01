@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
-using UnityEngine.Rendering;
 
 namespace DebugConsole
 {
@@ -17,7 +16,8 @@ namespace DebugConsole
         public bool Cheats { get; private set; } = false;
         public bool Shown { get; private set; } = false;
 
-        public SerializedDictionary<string, DebugCommand> CommandDictionary { get; private set; }
+
+        public Dictionary<string, DebugCommand> CommandDictionary { get; private set; }
         public DebugConsoleDrawer ConsoleDrawer { get; private set; }
 
         public enum AccessLevel { None, High };
@@ -76,7 +76,7 @@ namespace DebugConsole
 
         private void LinkCommands()
         {
-            CommandDictionary = new SerializedDictionary<string, DebugCommand>();
+            CommandDictionary = new Dictionary<string, DebugCommand>();
             Link(new CmdClear());
         }
 
@@ -131,7 +131,7 @@ namespace DebugConsole
             }
             else
             {
-                LogPrivate("'" + string.Join(' ',parsedEntry) + "'" + " is not recognized as a command.", LogType.Error);
+                LogPrivate("'" + string.Join(' ', parsedEntry) + "'" + " is not recognized as a command.", LogType.Error);
             }
         }
     }
@@ -160,7 +160,7 @@ namespace DebugConsole
             {
                 entry += "[" + time + "]" + " ";
             }
-            
+
             if (showType)
             {
                 entry += "[" + type.ToString() + "]" + " ";
