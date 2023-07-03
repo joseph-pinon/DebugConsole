@@ -83,6 +83,8 @@ namespace DebugConsole
         {
             CommandDictionary = new Dictionary<string, DebugCommand>();
             Link(new CmdClear());
+            Link(new CmdHelp());
+            Link(new CmdQuit());
         }
 
         private void Link(DebugCommand command)
@@ -138,47 +140,6 @@ namespace DebugConsole
             {
                 LogPrivate("'" + string.Join(' ', parsedEntry) + "'" + " is not recognized as a command.", LogType.Error);
             }
-        }
-    }
-
-    [System.Serializable]
-    public class ConsoleEntry
-    {
-        public string time;
-        public string text;
-        public string trace;
-
-        public LogType type;
-        public ConsoleEntry(string entry, LogType type, string trace = "")
-        {
-            time = DateTime.Now.ToString();
-            this.text = entry;
-            this.type = type;
-            this.trace = trace;
-        }
-
-        public string GetEntry(bool showTime, bool showType, bool showTrace)
-        {
-            string entry = "";
-
-            if (showTime)
-            {
-                entry += "[" + time + "]" + " ";
-            }
-
-            if (showType)
-            {
-                entry += "[" + type.ToString() + "]" + " ";
-            }
-
-            entry += text;
-
-            if (showTrace && !string.IsNullOrEmpty(trace))
-            {
-                entry += ("\n" + trace);
-            }
-
-            return entry;
         }
     }
 }

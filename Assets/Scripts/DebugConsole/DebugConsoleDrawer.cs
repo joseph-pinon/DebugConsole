@@ -212,5 +212,46 @@ namespace DebugConsole
         }
         #endregion
 
+        [System.Serializable]
+        private class ConsoleEntry
+        {
+            public string time;
+            public string text;
+            public string trace;
+
+            public LogType type;
+            public ConsoleEntry(string entry, LogType type, string trace = "")
+            {
+                time = DateTime.Now.ToString();
+                this.text = entry;
+                this.type = type;
+                this.trace = trace;
+            }
+
+            public string GetEntry(bool showTime, bool showType, bool showTrace)
+            {
+                string entry = "";
+
+                if (showTime)
+                {
+                    entry += "[" + time + "]" + " ";
+                }
+
+                if (showType)
+                {
+                    entry += "[" + type.ToString() + "]" + " ";
+                }
+
+                entry += text;
+
+                if (showTrace && !string.IsNullOrEmpty(trace))
+                {
+                    entry += ("\n" + trace);
+                }
+
+                return entry;
+            }
+        }
+
     }
 }

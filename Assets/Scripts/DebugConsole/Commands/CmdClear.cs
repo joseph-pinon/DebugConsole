@@ -6,17 +6,21 @@ namespace DebugConsole
     public class CmdClear : DebugCommand
     {
         public override string Title { get; protected set; } = "/clear";
-        public override string Description { get; protected set; } = "Clears the console.";
-        public override string Help { get; protected set; } = "";
+        public override string Description { get; protected set; } = "Clears the debug console.";
         public override DebugConsole.AccessLevel RequiredLevel { get; protected set; } = DebugConsole.AccessLevel.None;
+        public override string[] Args { get; protected set; } = 
+            new string[] {"NONE"};
 
         public override void Execute(string[] args)
         {
             if (args.Length > 0)
             {
-                DebugConsole.Log(invalidArguments, LogType.Error);
+                DebugConsole.Log(InvalidArgMessage, LogType.Error);
             }
-            DebugConsole.ClearConsole();
+            else
+            {
+                DebugConsole.ClearConsole();
+            }
         }
     }
 }

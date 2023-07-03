@@ -17,6 +17,8 @@ MonoBehaviour:
   startWidthScale: 0.5
   startHeightScale: 0.5
   startingPosition: {x: 0, y: 0}
+  minSize: {x: 300, y: 300}
+  maxSize: {x: 1920, y: 1080}
   commandColor: {r: 0, g: 0, b: 1, a: 1}
   logColor: {r: 1, g: 1, b: 1, a: 1}
   warningColor: {r: 1, g: 0.9203187, b: 0, a: 1}
@@ -25,4 +27,4 @@ MonoBehaviour:
   currentEntrySize: 14
   extendTexture: {fileID: 2800000, guid: aba6b4e8d8686ee4781c059c7247de58, type: 3}
   extendButtonOffset: 3
-  extendButtonSize: 15
+  extendButtonSize: 14
